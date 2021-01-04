@@ -23,7 +23,7 @@ public class ItemRepositoryTest {
 
         Item item = new Item();
         item.setName("노트북");
-        item.setPrice(100000);
+        item.setPrice(100000); //문자가 아니라 int 형태 사용
         item.setContent("삼성 노트북");
 
         Item newItem = itemRepository.save(item);

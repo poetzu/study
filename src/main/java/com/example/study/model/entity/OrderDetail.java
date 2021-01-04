@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class OrderDetail {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // mysql이라서 identity
     private Long id;
 
     private LocalDateTime orderAt;
