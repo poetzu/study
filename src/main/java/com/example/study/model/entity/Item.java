@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -17,21 +20,30 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String status;
+
     private String name;
 
-    private Integer price;
+    private String title;
 
     private String content;
 
-    // 1 : N
-    // LAZY = 지연로딩  , EAGER = 즉시로딩
-    // 여러가지 로딩이 일어날 때 lazy를 추천.
+    private Integer price;
 
-    // LAZY = SELECT * FROM item where id = ?
+    private String brandName;
 
-    // EAGER = 1:1
-    // JOIN item item0_ left outer join order_detail orderdetai1_ on item0_.id=orderdetai1_.item_id left outer join user user2_ on orderdetai1_.user_id=user2_.id
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-    private List<OrderDetail> orderDetailList;
+    private LocalDateTime registeredAt;
+
+    private LocalDateTime unregisteredAt;
+
+    private LocalDateTime createdAt;
+
+    private String createdBy;
+
+    private LocalDateTime updatedAt;
+
+    private String updatedBy;
+
+    private Long partnerId;
 
 }
