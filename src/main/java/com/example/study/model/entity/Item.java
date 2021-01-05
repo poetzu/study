@@ -25,6 +25,7 @@ public class Item {
 
     // 1 : N
     // LAZY = 지연로딩  , EAGER = 즉시로딩
+    // 여러가지 로딩이 일어날 때 lazy를 추천.
 
     // LAZY = SELECT * FROM item where id = ?
 
