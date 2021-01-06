@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @DataJpaTest                                                                    // JPA 테스트 관련 컴포넌트만 Import
@@ -22,9 +23,17 @@ public class ItemRepositoryTest {
     public void create(){
 
         Item item = new Item();
-        item.setName("노트북");
-        item.setPrice(100000); //문자가 아니라 int 형태 사용
-        item.setContent("삼성 노트북");
+        item.setStatus("UNREGISTERED");
+        item.setName("삼성 노트북");
+        item.setTitle("삼성 노트북 A100");
+        item.setContent("2019년형 노트북 입니다");
+        item.setPrice(900000);
+        item.setBrandName("삼성");
+        item.setRegisteredAt(LocalDateTime.now());
+        item.setCreatedAt(LocalDateTime.now());
+        item.setCreatedBy("Partner01");
+        item.setPartnerId(1L);
+
 
         Item newItem = itemRepository.save(item);
         Assertions.assertNotNull(newItem);
