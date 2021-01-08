@@ -1,5 +1,7 @@
 package com.example.study.repository;
 
+import com.example.study.component.LoginUserAuditorAware;
+import com.example.study.config.JpaConfig;
 import com.example.study.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -15,6 +18,7 @@ import java.util.Optional;
 @DataJpaTest                                                                    // JPA 테스트 관련 컴포넌트만 Import
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)    // 실제 db 사용
 @DisplayName("ItemRepositoryTest 테스트")
+@Import({JpaConfig.class, LoginUserAuditorAware.class})
 public class UserRepositoryTest {
 
     // Dependency Injection (DI)
@@ -30,7 +34,7 @@ public class UserRepositoryTest {
         String phoneNumber = "010-1111-2222";
         LocalDateTime registeredAt = LocalDateTime.now();
         LocalDateTime createdAt = LocalDateTime.now();
-        String createdBy = "AdminServer";
+        //String createdBy = "AdminServer"; // LoginUserAuditorAware 적용으로 자동 createdBy 설정
 
 
         User user = new User();
@@ -40,11 +44,12 @@ public class UserRepositoryTest {
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setRegisteredAt(registeredAt);
-        user.setCreatedAt(createdAt);
-        user.setCreatedBy(createdBy);
+        //user.setCreatedAt(createdAt); // LoginUserAuditorAware 적용으로 자동 createdAt, createdBy 설정
 
         User newUser = userRepository.save(user);
         Assertions.assertNotNull(newUser);
+        Assertions.assertEquals("AdminServer", newUser.getCreatedBy());
+
     }
 
     @Test
@@ -52,27 +57,6 @@ public class UserRepositoryTest {
     public void read(){
 
         User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2221");
-
-        if(user != null){
-            user.getOrderGroupList().stream().forEach(orderGruop ->{
-
-                System.out.println("-----주문묶음-------");
-                System.out.println("수령인 : "+orderGruop.getRevName());
-                System.out.println("수령지 : "+orderGruop.getRevAddress());
-                System.out.println("총금액 : "+orderGruop.getTotalPrice());
-                System.out.println("총수 : "+orderGruop.getTotalQuantity());
-
-                System.out.println("-----주문상세-------");
-
-                orderGruop.getOrderDetailList().forEach(orderDetail -> {
-                    System.out.println("수령인 : "+orderGruop.getRevName());
-
-
-                });
-            });
-
-        }
-
         Assertions.assertNotNull(user);
     }
 
@@ -109,3 +93,4 @@ public class UserRepositoryTest {
     }
 
 }
+

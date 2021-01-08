@@ -11,9 +11,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+
+import org.springframework.context.annotation.Import;
 @DataJpaTest                                                                    // JPA 테스트 관련 컴포넌트만 Import
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)    // 실제 db 사용
 @DisplayName("ItemRepositoryTest 테스트")
+@Import({JpaConfig.class, LoginUserAuditorAware.class})
 public class ItemRepositoryTest {
 
     @Autowired
@@ -30,9 +33,9 @@ public class ItemRepositoryTest {
         item.setPrice(900000);
         item.setBrandName("삼성");
         item.setRegisteredAt(LocalDateTime.now());
-        item.setCreatedAt(LocalDateTime.now());
-        item.setCreatedBy("Partner01");
-        item.setPartnerId(1L);
+        //item.setCreatedAt(LocalDateTime.now()); // LoginUserAuditorAware 적용으로 자동 createdAt, createdBy 설정
+        //item.setCreatedBy("Partner01"); // LoginUserAuditorAware 적용으로 자동 createdAt, createdBy 설정
+        //item.setPartnerId(1L);
 
 
         Item newItem = itemRepository.save(item);
