@@ -3,6 +3,7 @@ package com.example.study.repository;
 import com.example.study.component.LoginUserAuditorAware;
 import com.example.study.config.JpaConfig;
 import com.example.study.model.entity.User;
+import org.graalvm.compiler.lir.LIRInstruction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,6 +47,14 @@ public class UserRepositoryTest {
         user.setRegisteredAt(registeredAt);
         //user.setCreatedAt(createdAt); // LoginUserAuditorAware 적용으로 자동 createdAt, createdBy 설정
 
+        User u = User.builder()
+                .account(account)
+                .password(password)
+                .status(status)
+                .email(email)
+                .build();
+        //요즘은 builder 패턴으로 만드는 경우가 많음.
+
         User newUser = userRepository.save(user);
         Assertions.assertNotNull(newUser);
         Assertions.assertEquals("AdminServer", newUser.getCreatedBy());
@@ -57,7 +66,26 @@ public class UserRepositoryTest {
     public void read(){
 
         User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2221");
+
+
+
+        if(user != null){
+            user.getOrderGroupList().stream().forEach(orderGroup -> {
+
+                System.out.println("----------주문묶음-----------");
+                System.out.println("수령인 :"+orderGroup.getRevName());
+                System.out.println("수령지 :"+orderGroup.getRevAddress());
+                System.out.println("총금액 :"+orderGroup.getTotalPrice());
+                System.out.println("총수량 :"+orderGroup.getTotalQuantity());
+
+                System.out.println();
+
+            });
+        }
+
         Assertions.assertNotNull(user);
+
+
     }
 
     @Test
@@ -93,4 +121,3 @@ public class UserRepositoryTest {
     }
 
 }
-
