@@ -1,7 +1,7 @@
 package com.example.study.repository;
 
-//import com.example.study.component.LoginUserAuditorAware;
-//import com.example.study.config.JpaConfig;
+import com.example.study.component.LoginUserAuditorAware;
+import com.example.study.config.JpaConfig;
 import com.example.study.model.entity.OrderGroup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
