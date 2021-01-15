@@ -26,7 +26,7 @@ public class UserApiRequest {
     private String phoneNumber;
 
     private LocalDateTime registeredAt;
-
+    //자동생성 아니고 직접 만듦.
     private LocalDateTime unregisteredAt;
 
 }

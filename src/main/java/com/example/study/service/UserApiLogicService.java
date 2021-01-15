@@ -59,6 +59,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
         // 2. id -> user 데이터 를 찾고
         Optional<User> optional = userRepository.findById(userApiRequest.getId());
+        //optional 있을수도 있고 없을수도 있음
 
         return optional.map(user -> {
             // 3. data -> update
@@ -72,17 +73,18 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                     .setUnregisteredAt(userApiRequest.getUnregisteredAt())
             ;
             return user;
-
+            //chain을 걸어놔서 가능함.
         })
                 .map(user -> userRepository.save(user))             // update -> newUser
                 .map(user -> response(user))                        // userApiResponse
                 .orElseGet(()->Header.ERROR("데이터 없음"));
-    }
+    }           //람다식
 
     @Override
     public Header delete(Long id) {
         // 1. id -> repository -> user
         Optional<User> optional = userRepository.findById(id);
+        //아이디 찾는 방법임.
 
         // 2. repository -> delete
         return optional.map(user ->{
